@@ -1,0 +1,108 @@
+---
+import type { POITopic } from '../../types/neighborhood';
+
+interface Props {
+  neighborhoodName: string;
+  poiTopics: POITopic[];
+}
+
+const { neighborhoodName, poiTopics } = Astro.props;
+---
+
+<nav class="quicklinks" aria-label="Navegação rápida">
+  <div class="container">
+    <ul>
+      <li>
+        <a href="#sobre" class="active">Sobre o bairro</a>
+      </li>
+      <li>
+        <a href="#historia">História</a>
+      </li>
+      {poiTopics.map((topic) => (
+        <li>
+          <a href={`#${topic.name.toLowerCase().replace(/\s+/g, '-')}`}>
+            {topic.name}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a href="#bairros-proximos">Bairros próximos</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .quicklinks {
+    background: #F1F1F1;
+    border-bottom: 1px solid #e9ecef;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    padding: 1rem 0;
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+
+  a {
+    color: #484848;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+    padding: 0.5rem 0;
+  }
+
+  a:hover {
+    color: #252525;
+  }
+
+  a.active {
+    color: #252525;
+    font-weight: 600;
+    position: relative;
+  }
+
+  a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #252525;
+  }
+
+  @media (max-width: 1024px) {
+    .container {
+      padding: 0 12px;
+    }
+    
+    ul {
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .quicklinks {
+      display: none;
+    }
+  }
+</style>

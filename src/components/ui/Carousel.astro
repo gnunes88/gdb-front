@@ -1,0 +1,172 @@
+---
+---
+
+<div class="carousel-container">
+  <button class="carousel-button prev" aria-label="Previous slide">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  
+  <div class="carousel">
+    <div class="carousel-track">
+      <slot />
+    </div>
+  </div>
+
+  <button class="carousel-button next" aria-label="Next slide">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .carousel {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .carousel-button {
+    position: absolute;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #E5E5E5;
+    color: #EB194B;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .carousel-button:hover {
+    background: #f8f8f8;
+  }
+
+  .prev {
+    left: -20px;
+  }
+
+  .next {
+    right: -20px;
+  }
+
+  @media (max-width: 768px) {
+    .carousel-button {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  class CarouselController {
+    private track: HTMLElement;
+    private slides: HTMLElement[];
+    private currentIndex: number = 0;
+    private slideWidth: number = 0;
+    private totalSlides: number = 0;
+    private visibleSlides: number = 3;
+
+    constructor() {
+      this.track = document.querySelector('.carousel-track')!;
+      this.slides = Array.from(this.track.children) as HTMLElement[];
+      this.totalSlides = this.slides.length;
+      this.updateSlideWidth();
+      this.setupButtons();
+      this.setupResponsive();
+      this.equalizeCardHeights();
+    }
+
+    private updateSlideWidth() {
+      if (window.innerWidth <= 1024 && window.innerWidth > 768) {
+        this.visibleSlides = 2;
+      } else if (window.innerWidth <= 768) {
+        this.visibleSlides = 1;
+      } else {
+        this.visibleSlides = 3;
+      }
+
+      this.slideWidth = this.track.parentElement!.offsetWidth / this.visibleSlides;
+      this.slides.forEach(slide => {
+        slide.style.flexBasis = `${this.slideWidth}px`;
+        slide.style.minWidth = `${this.slideWidth}px`;
+      });
+    }
+
+    private equalizeCardHeights() {
+      // Reset heights first
+      this.slides.forEach(slide => {
+        const card = slide.querySelector('.neighborhood-card');
+        if (card) {
+          (card as HTMLElement).style.height = 'auto';
+        }
+      });
+
+      // Find the tallest card
+      const heights = this.slides.map(slide => {
+        const card = slide.querySelector('.neighborhood-card');
+        return card ? card.getBoundingClientRect().height : 0;
+      });
+      const maxHeight = Math.max(...heights);
+
+      // Set all cards to the height of the tallest card
+      this.slides.forEach(slide => {
+        const card = slide.querySelector('.neighborhood-card');
+        if (card) {
+          (card as HTMLElement).style.height = `${maxHeight}px`;
+        }
+      });
+    }
+
+    private setupButtons() {
+      const prevButton = document.querySelector('.carousel-button.prev');
+      const nextButton = document.querySelector('.carousel-button.next');
+
+      prevButton?.addEventListener('click', () => this.slide('prev'));
+      nextButton?.addEventListener('click', () => this.slide('next'));
+    }
+
+    private setupResponsive() {
+      window.addEventListener('resize', () => {
+        this.updateSlideWidth();
+        this.updateTrackPosition();
+        this.equalizeCardHeights();
+      });
+    }
+
+    private slide(direction: 'prev' | 'next') {
+      if (direction === 'prev' && this.currentIndex > 0) {
+        this.currentIndex--;
+      } else if (direction === 'next' && this.currentIndex < this.totalSlides - this.visibleSlides) {
+        this.currentIndex++;
+      }
+      this.updateTrackPosition();
+    }
+
+    private updateTrackPosition() {
+      const position = -this.currentIndex * this.slideWidth;
+      this.track.style.transform = `translateX(${position}px)`;
+    }
+  }
+
+  // Initialize carousel
+  new CarouselController();
+</script>

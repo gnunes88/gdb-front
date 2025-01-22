@@ -1,0 +1,70 @@
+---
+interface Props {
+  name: string;
+  imageUrl: string | null;
+  searchResultsUrl: string;
+}
+
+const { name, imageUrl, searchResultsUrl } = Astro.props;
+
+const defaultImage = "https://ynkkkxhqzvqzzvikxteu.supabase.co/storage/v1/object/public/neighborhood_guide/imagem-bairro-padrao.jpg";
+const backgroundImage = imageUrl || defaultImage;
+---
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>{name}</h1>
+    <a href={searchResultsUrl} class="cta-button">Ver imóveis</a>
+  </div>
+</section>
+
+<style define:vars={{ backgroundImage: `url(${backgroundImage})` }}>
+  .hero {
+    position: relative;
+    height: 600px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--backgroundImage);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-content {
+    color: white;
+    z-index: 1;
+  }
+
+  h1 {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .cta-button {
+    display: inline-block;
+    background-color: #ff0054;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+
+  .cta-button:hover {
+    background-color: #d60048;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      height: 400px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>

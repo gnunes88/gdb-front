@@ -1,0 +1,55 @@
+---
+interface Props {
+  isOpen: boolean;
+}
+
+const { isOpen } = Astro.props;
+---
+
+<div class={`mobile-menu ${isOpen ? 'open' : ''}`}>
+  <nav class="menu-content">
+    <a href="https://www.lopes.com.br/busca/lancamento/br/sp/sao-paulo" class="menu-link">Lançamentos</a>
+    <a href="https://www.lopes.com.br/busca/venda/br/sp/sao-paulo" class="menu-link">Prontos</a>
+    <a href="https://www.lopes.com.br/busca/aluguel/br/sp/sao-paulo" class="menu-link">Aluguel</a>
+    <a href="https://www.lopes.com.br/paginas/anuncie-seu-imovel" class="menu-link">Anuncie seu Imóvel</a>
+    <a href="https://www.lopes.com.br/paginas/seja-um-franqueado" class="menu-link">Seja Franqueado</a>
+    <a href="https://www.lopes.com.br/calculadora-simulador-de-financiamento-imobiliario" class="menu-link">Calculadora de Compra</a>
+    <a href="https://www.lopes.com.br/paginas/fale-conosco" class="menu-link">Fale Conosco</a>
+  </nav>
+</div>
+
+<style>
+  .mobile-menu {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 60px);
+    background-color: white;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 99;
+  }
+
+  .mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  .menu-content {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .menu-link {
+    color: #484848;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 0;
+  }
+
+  .menu-link:hover {
+    color: #EB194B;
+  }
+</style>

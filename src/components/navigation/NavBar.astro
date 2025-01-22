@@ -1,0 +1,170 @@
+---
+import NavLink from './NavLink.astro';
+import HamburgerIcon from '../icons/HamburgerIcon.astro';
+import MobileMenu from './MobileMenu.astro';
+---
+
+<nav class="navbar">
+  <div class="container">
+    <div class="left-section">
+      <div class="menu-logo-wrapper">
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <HamburgerIcon />
+        </button>
+        <a href="https://www.lopes.com.br/" class="logo">
+          <img src="https://www.lopes.com.br/assets/svgs/default_logo.svg" alt="Lopes" />
+        </a>
+      </div>
+      <div class="nav-links">
+        <NavLink href="https://www.lopes.com.br/busca/lancamento/br/sp/sao-paulo" text="Lançamentos" />
+        <NavLink href="https://www.lopes.com.br/busca/venda/br/sp/sao-paulo" text="Prontos" />
+        <NavLink href="https://www.lopes.com.br/busca/aluguel/br/sp/sao-paulo" text="Aluguel" />
+        <NavLink href="https://www.lopes.com.br/paginas/anuncie-seu-imovel" text="Anuncie seu Imóvel" />
+        <NavLink href="https://www.lopes.com.br/paginas/seja-um-franqueado" text="Seja Franqueado" />
+        <NavLink href="https://www.lopes.com.br/calculadora-simulador-de-financiamento-imobiliario" text="Calculadora de Compra" />
+      </div>
+    </div>
+
+    <div class="right-section">
+      <a href="https://www.lopes.com.br/favoritos" class="favorites-link">
+        <div class="heart-container">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="favorites-count">0</span>
+        </div>
+      </a>
+    </div>
+  </div>
+  <MobileMenu isOpen={false} />
+</nav>
+
+<style>
+  .navbar {
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    position: relative;
+  }
+
+  .container {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .left-section {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-left: 80px;
+  }
+
+  .menu-logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    z-index: 20;
+  }
+
+  .logo img {
+    width: 86.43px;
+    height: 20px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .right-section {
+    display: flex;
+    align-items: center;
+    margin-right: 80px;
+    gap: 32px;
+  }
+
+  .favorites-link {
+    position: relative;
+    color: #EB194B;
+    text-decoration: none;
+  }
+
+  .heart-container {
+    position: relative;
+  }
+
+  .favorites-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff0054;
+    color: white;
+    font-size: 0.75rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 20;
+    color: #484848;
+  }
+
+  .menu-toggle:hover {
+    color: #333;
+  }
+
+  @media (max-width: 1024px) {
+    .left-section {
+      margin-left: 1rem;
+    }
+
+    .right-section {
+      margin-right: 1rem;
+      gap: 1rem;
+    }
+
+    .menu-toggle {
+      display: block;
+    }
+
+    .logo img {
+      width: 86.43px;
+      height: 20px;
+    }
+
+    .nav-links {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu');
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+      mobileMenu.classList.toggle('open');
+    });
+  }
+</script>

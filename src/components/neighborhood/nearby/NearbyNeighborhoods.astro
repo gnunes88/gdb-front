@@ -1,0 +1,118 @@
+---
+import type { NearbyNeighborhood } from '../../../types/neighborhood';
+import NearbyNeighborhoodCard from './NearbyNeighborhoodCard.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+import Carousel from '../../ui/Carousel.astro';
+
+interface Props {
+  neighborhoods: NearbyNeighborhood[];
+  currentNeighborhoodName: string;
+}
+
+const { neighborhoods, currentNeighborhoodName } = Astro.props;
+const sortedNeighborhoods = neighborhoods
+  .sort((a, b) => a.distance - b.distance)
+  .slice(0, 6);
+---
+
+<section class="nearby-section" id="bairros-proximos">
+  <div class="container">
+    <SectionHeading text="Bairros próximos" />
+    <p class="intro-text">
+      Explore também os bairros vizinhos e descubra ainda mais opções de lazer, cultura e serviços. Cada região ao redor oferece sua própria identidade e charme, com atrações que complementam o que {currentNeighborhoodName} já tem de melhor.
+    </p>
+    
+    <div class="desktop-view">
+      <Carousel>
+        {sortedNeighborhoods.map(neighborhood => (
+          <div class="carousel-slide">
+            <NearbyNeighborhoodCard neighborhood={neighborhood} />
+          </div>
+        ))}
+      </Carousel>
+    </div>
+
+    <div class="mobile-view">
+      <div class="neighborhoods-scroll">
+        {sortedNeighborhoods.map(neighborhood => (
+          <div class="scroll-item">
+            <NearbyNeighborhoodCard neighborhood={neighborhood} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .nearby-section {
+    padding: 48px 16px;
+    background-color: #fff;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .intro-text {
+    font-size: 1.125rem;
+    color: #484848;
+    line-height: 1.7;
+    margin: 0 0 48px 0;
+  }
+
+  .carousel-slide {
+    padding: 0 12px;
+  }
+
+  .mobile-view {
+    display: none;
+  }
+
+  .neighborhoods-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 0 0 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .neighborhoods-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  .scroll-item {
+    flex: 0 0 280px;
+  }
+
+  @media (max-width: 768px) {
+    .nearby-section {
+      padding: 32px 16px;
+    }
+
+    .intro-text {
+      margin: 0 0 32px 0;
+    }
+
+    .desktop-view {
+      display: none;
+    }
+
+    .mobile-view {
+      display: block;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nearby-section {
+      padding: 24px 16px;
+    }
+
+    .scroll-item {
+      flex: 0 0 260px;
+    }
+  }
+</style>

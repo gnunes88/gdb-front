@@ -1,0 +1,51 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  shortDescription: string;
+  introText: string;
+}
+
+const { shortDescription, introText } = Astro.props;
+---
+
+<section class="intro-section" id="sobre">
+  <div class="container">
+    <SectionHeading text={shortDescription} />
+    <p>{introText}</p>
+  </div>
+</section>
+
+<style>
+  .intro-section {
+    padding: 48px 16px;
+    margin-top: 5px;
+    background-color: #fff;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: #484848;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .intro-section {
+      padding: 24px 12px;
+      margin-top: 4px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .intro-section {
+      padding: 16px 8px;
+      margin-top: 3px;
+    }
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+}
+
+const { currentPage, totalPages } = Astro.props;
+
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+---
+
+<nav class="pagination" aria-label="Navegação entre páginas">
+  <ul>
+    {currentPage > 1 && (
+      <li>
+        <a href={currentPage === 2 ? '/' : `/pagina/${currentPage - 1}`} class="page-link">
+          Anterior
+        </a>
+      </li>
+    )}
+    
+    {pages.map((page) => (
+      <li>
+        <a 
+          href={page === 1 ? '/' : `/pagina/${page}`}
+          class={`page-link ${currentPage === page ? 'active' : ''}`}
+        >
+          {page}
+        </a>
+      </li>
+    ))}
+
+    {currentPage < totalPages && (
+      <li>
+        <a href={`/pagina/${currentPage + 1}`} class="page-link">
+          Próxima
+        </a>
+      </li>
+    )}
+  </ul>
+</nav>
+
+<style>
+  .pagination {
+    margin: 2rem 0;
+  }
+
+  .pagination ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .page-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #484848;
+    border: 1px solid rgba(175, 175, 175, 0.75);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .page-link:hover {
+    border-color: #EB194B;
+    color: #EB194B;
+  }
+
+  .page-link.active {
+    background-color: #EB194B;
+    color: white;
+    border-color: #EB194B;
+  }
+</style>

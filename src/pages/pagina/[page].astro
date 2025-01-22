@@ -1,0 +1,158 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Pagination from '../../components/Pagination.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+
+export async function getStaticPaths() {
+  const response = await fetch('https://vercel-r372.vercel.app/api/neighborhoods/');
+  const neighborhoods = await response.json();
+  
+  const itemsPerPage = 8;
+  const totalPages = Math.ceil(neighborhoods.length / itemsPerPage);
+  
+  return Array.from({ length: totalPages - 1 }, (_, i) => {
+    const page = i + 2; // Start from page 2
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    
+    return {
+      params: { page: String(page) },
+      props: { 
+        neighborhoods: neighborhoods.slice(start, end),
+        currentPage: page,
+        totalPages
+      }
+    };
+  });
+}
+
+const { neighborhoods, currentPage, totalPages } = Astro.props;
+---
+
+<Layout title={`Guia de Bairros de São Paulo - Página ${currentPage}`}>
+  <main>
+    <div class="container">
+      <header>
+        <SectionHeading text="Conheça os bairros de São Paulo" />
+        <p class="subtitle">Página {currentPage} de {totalPages}</p>
+      </header>
+
+      <div class="neighborhoods-grid">
+        {neighborhoods.map((neighborhood) => (
+          <a href={`/bairro/${neighborhood.slug}`} class="neighborhood-card">
+            <div class="image-container">
+              <img 
+                src={neighborhood.image_url || "https://ynkkkxhqzvqzzvikxteu.supabase.co/storage/v1/object/public/neighborhood_guide/imagem-bairro-padrao.jpg"} 
+                alt={`Bairro ${neighborhood.name}`}
+                loading="lazy"
+              />
+            </div>
+            <div class="content">
+              <h2>{neighborhood.name}</h2>
+              <p>{neighborhood.short_description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 16px;
+  }
+
+  header {
+    margin-bottom: 48px;
+  }
+
+  .subtitle {
+    font-size: 1.125rem;
+    color: #484848;
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  .neighborhoods-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .neighborhood-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(175, 175, 175, 0.75);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .neighborhood-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .image-container {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .neighborhood-card:hover .image-container img {
+    transform: scale(1.05);
+  }
+
+  .content {
+    padding: 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content h2 {
+    font-size: 1.25rem;
+    color: #252525;
+    margin: 0 0 12px 0;
+    font-weight: 600;
+  }
+
+  .content p {
+    font-size: 1rem;
+    color: #484848;
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  @media (max-width: 768px) {
+    .neighborhoods-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .container {
+      padding: 32px 16px;
+    }
+
+    .image-container {
+      height: 200px;
+    }
+  }
+</style>

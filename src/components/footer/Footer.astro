@@ -1,0 +1,235 @@
+---
+import SocialIcon from './SocialIcon.astro';
+
+const socialLinks = [
+  { name: 'Facebook', url: 'https://www.facebook.com/imobiliaria.lopes' },
+  { name: 'Twitter', url: 'https://www.twitter.com/Lopes_Imoveis' },
+  { name: 'Instagram', url: 'https://www.instagram.com/lopesimoveis/' },
+  { name: 'Linkedin', url: 'https://www.linkedin.com/company/lopes-consultoria-de-imoveis' },
+  { name: 'Youtube', url: 'https://www.youtube.com/user/lopesconsultoria' },
+  { name: 'Blog', url: 'https://www.lopes.com.br/blog' }
+];
+
+const lopesLinks = [
+  { text: 'Quem Somos', url: 'https://www.lopes.com.br/paginas/quem-somos' },
+  { text: 'Fale Conosco', url: 'https://www.lopes.com.br/paginas/fale-conosco' },
+  { text: 'Assessoria de Imprensa', url: 'https://www.lopes.com.br/paginas/assessoria-de-imprensa' },
+  { text: 'Lopes na mídia', url: 'https://www.lopes.com.br/campanha/lopes-na-midia' },
+  { text: 'Alô Compliance', url: 'https://tally.so/r/mDKdDZ' },
+  { text: 'Termos e condições', url: 'https://www.lopes.com.br/paginas/termos-e-condicoes' },
+  { text: 'Trabalhe conosco', url: 'https://www.lopes.com.br/paginas/trabalhe-conosco' },
+  { text: 'Seja um corretor associado', url: 'https://www.lopes.com.br/campanha/quero-ser-corretor' },
+  { text: 'Relação com investidores', url: 'https://ri.lopes.com.br/' },
+  { text: 'Mapa do site', url: 'https://www.lopes.com.br/paginas/mapa-do-site' },
+  { text: 'LPS - Imóveis de Luxo', url: 'https://www.lpslopes.com.br' },
+  { text: 'Condomínios e Edifícios', url: 'https://www.lopes.com.br/paginas/condominios/sp' },
+  { text: 'Conheça seu bairro', url: 'https://www.lopes.com.br/bairro/sp/sao-paulo' },
+  { text: 'Construtoras e Incorporadoras', url: 'https://www.lopes.com.br/empreendimentos' },
+  { text: 'Relatório de Igualdade Salarial', url: 'https://www.lopes.com.br/campanha/relatorio-igualdade-salarial' }
+];
+
+const servicosLinks = [
+  { text: 'Venda seu imóvel', url: 'https://www.lopes.com.br/paginas/anuncie-seu-imovel' },
+  { text: 'Alugue seu imóvel', url: 'https://www.lopes.com.br/paginas/anuncie-seu-imovel' },
+  { text: 'Credipronto', url: 'https://www.credipronto.com.br' },
+  { text: 'Consórcio Lopes', url: 'https://www.lopes.com.br/campanha/consorcio-de-imoveis' },
+  { text: 'Acesso em Libras', url: '#', class: 'menu-button' }
+];
+---
+
+<footer class="footer">
+  <div class="red-stripe">
+    <div class="circle">
+      <img 
+        src="https://ynkkkxhqzvqzzvikxteu.supabase.co/storage/v1/object/public/neighborhood_guide/logo-footer.svg" 
+        alt="Logo Footer"
+        width="24"
+        height="24"
+      />
+    </div>
+  </div>
+
+  <div class="footer-content">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="logo-column">
+          <img 
+            src="https://www.lopes.com.br/assets/svgs/default_logo.svg" 
+            alt="Lopes"
+            width="120"
+            height="28"
+          />
+        </div>
+
+        <div class="links-column">
+          <h3>A Lopes</h3>
+          <ul>
+            {lopesLinks.map(({ text, url }) => (
+              <li>
+                <a href={url} target={url.startsWith('http') ? '_blank' : '_self'} rel={url.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="links-column">
+          <h3>Serviços</h3>
+          <ul>
+            {servicosLinks.map(({ text, url, class: className }) => (
+              <li>
+                <a 
+                  href={url} 
+                  class={className}
+                  target={url.startsWith('http') ? '_blank' : '_self'}
+                  rel={url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                >
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="links-column">
+          <h3>Redes Sociais</h3>
+          <ul class="social-links">
+            {socialLinks.map(({ name, url }) => (
+              <li>
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  <SocialIcon name={name} />
+                  <span>{name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <div class="footer-copyright">
+    <div class="container">
+      <p>2023 Copyright - LPS Brasil/ FOR YOU CNPJ: 08.094.722/0001-64 Consultoria de Imóveis S/A - Todos os direitos reservados</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 80px;
+  }
+
+  .red-stripe {
+    height: 48px;
+    background-color: #EB194B;
+    position: relative;
+  }
+
+  .circle {
+    width: 48px;
+    height: 48px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    bottom: -24px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .footer-content {
+    padding: 64px 0 48px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+
+  .links-column h3 {
+    color: #6F6F6F;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .links-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .links-column ul li {
+    margin-bottom: 16px;
+  }
+
+  .links-column ul li:last-child {
+    margin-bottom: 0;
+  }
+
+  .links-column a {
+    color: #6F6F6F;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+  }
+
+  .links-column a:hover {
+    color: #EB194B;
+  }
+
+  .social-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-divider {
+    height: 1px;
+    background-color: #F2F2F2;
+    margin: 0 16px;
+  }
+
+  .footer-copyright {
+    padding: 24px 0;
+    text-align: center;
+  }
+
+  .footer-copyright p {
+    color: #6F6F6F;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 48px 32px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .footer-content {
+      padding: 48px 0 32px;
+    }
+  }
+</style>

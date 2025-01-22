@@ -1,0 +1,51 @@
+---
+import POIsList from './POIsList.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+import type { POITopic as POITopicType } from '../../../types/neighborhood';
+
+interface Props {
+  topic: POITopicType;
+}
+
+const { topic } = Astro.props;
+const { name, description, pois } = topic;
+---
+
+<section class="poi-topic" id={name.toLowerCase().replace(/\s+/g, '-')}>
+  <SectionHeading text={name} />
+  <p class="topic-description">{description}</p>
+  <POIsList pois={pois} />
+  <p class="distance-disclaimer">
+    <span class="asterisk">*</span><strong>Atenção:</strong> As distâncias são calculadas a partir do centro do bairro, e podem variar dependendo do ponto específico considerado.
+  </p>
+</section>
+
+<style>
+  .poi-topic {
+    padding: 48px 0;
+  }
+
+  .topic-description {
+    font-size: 1.125rem;
+    color: #484848;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .distance-disclaimer {
+    font-size: 0.875rem;
+    color: #484848;
+    font-style: italic;
+    margin-top: 1.5rem;
+  }
+
+  .asterisk {
+    color: #EB194B;
+  }
+
+  @media (max-width: 768px) {
+    .poi-topic {
+      padding: 32px 0;
+    }
+  }
+</style>

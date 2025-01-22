@@ -1,0 +1,60 @@
+---
+interface Props {
+  pois: Array<{ poi_name: string; distance: number }>;
+}
+
+const { pois } = Astro.props;
+
+function formatDistance(meters: number): string {
+  return meters >= 1000 
+    ? `${(meters / 1000).toFixed(1).replace('.', ',')} km`
+    : `${meters} metros`;
+}
+---
+
+<ul class="pois-list">
+  {pois.map(poi => (
+    <li>
+      <span class="poi-name">{poi.poi_name}</span>
+      <span class="poi-distance">{formatDistance(poi.distance)}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .pois-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .pois-list {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+  }
+
+  .poi-name {
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .poi-distance {
+    font-size: 0.875rem;
+    color: #666;
+    margin-left: 1rem;
+  }
+</style>

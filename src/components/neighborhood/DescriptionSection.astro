@@ -1,0 +1,43 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  name: string;
+  description: string;
+}
+
+const { name, description } = Astro.props;
+---
+
+<section class="description-section" id="historia">
+  <div class="container">
+    <SectionHeading text={`Um pouco da história de ${name}`} />
+    <p>{description}</p>
+  </div>
+</section>
+
+<style>
+  .description-section {
+    padding: 0 16px;
+    background-color: #fff;
+    margin-bottom: 80px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: #484848;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .description-section {
+      padding: 0 16px;
+    }
+  }
+</style>

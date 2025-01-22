@@ -1,0 +1,37 @@
+---
+import POITopic from './POITopic.astro';
+import type { POITopic as POITopicType } from '../../../types/neighborhood';
+
+interface Props {
+  topics: POITopicType[];
+}
+
+const { topics } = Astro.props;
+---
+
+<div class="pois-section">
+  <div class="container">
+    {topics.map(topic => (
+      <POITopic topic={topic} />
+    ))}
+  </div>
+</div>
+
+<style>
+  .pois-section {
+    background-color: #fff;
+    padding: 0 16px;
+    margin-top: 80px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .pois-section {
+      padding: 0 16px;
+    }
+  }
+</style>

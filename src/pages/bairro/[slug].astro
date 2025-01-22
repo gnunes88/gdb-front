@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/neighborhood/Hero.astro';
+import Breadcrumb from '../../components/navigation/Breadcrumb.astro';
+import QuickLinks from '../../components/neighborhood/QuickLinks.astro';
+import IntroSection from '../../components/neighborhood/IntroSection.astro';
+import Map from '../../components/neighborhood/Map.astro';
+import DescriptionSection from '../../components/neighborhood/DescriptionSection.astro';
+import POIsSection from '../../components/neighborhood/POIs/POIsSection.astro';
+import NearbyNeighborhoods from '../../components/neighborhood/nearby/NearbyNeighborhoods.astro';
+import type { NeighborhoodDetail } from '../../types/neighborhood';
+
+export async function getStaticPaths() {
+  const response = await fetch('https://vercel-r372.vercel.app/api/neighborhoods/');
+  const neighborhoods = await response.json();
+  
+  return neighborhoods.map((neighborhood) => ({
+    params: { slug: neighborhood.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const response = await fetch(`https://vercel-r372.vercel.app/api/neighborhoods/${slug}`);
+const data = await response.json() as NeighborhoodDetail;
+
+const { neighborhood, pois_topics, nearby_neighborhoods } = data;
+---
+
+<Layout 
+  title={`${neighborhood.name} - Guia de Bairros de São Paulo`}
+  description={neighborhood.short_description}
+>
+  <main>
+    <div class="hero-wrapper">
+      <Breadcrumb currentPage={neighborhood.name} />
+      <Hero 
+        name={neighborhood.name}
+        imageUrl={neighborhood.image_url}
+        searchResultsUrl={neighborhood.link_search_results}
+      />
+    </div>
+    <QuickLinks 
+      neighborhoodName={neighborhood.name}
+      poiTopics={pois_topics}
+    />
+    <IntroSection
+      shortDescription={neighborhood.short_description}
+      introText={neighborhood.intro_text}
+    />
+    <Map
+      latitude={neighborhood.latitude}
+      longitude={neighborhood.longitude}
+      name={neighborhood.name}
+    />
+    <DescriptionSection
+      name={neighborhood.name}
+      description={neighborhood.description}
+    />
+    <POIsSection topics={pois_topics} />
+    <NearbyNeighborhoods 
+      neighborhoods={nearby_neighborhoods}
+      currentNeighborhoodName={neighborhood.name}
+    />
+  </main>
+</Layout>
+
+<style>
+  .hero-wrapper {
+    position: relative;
+  }
+</style>

@@ -1,0 +1,1 @@
+const e=document.querySelector(".menu-toggle"),t=document.querySelector(".mobile-menu");e&&t&&e.addEventListener("click",()=>{const n=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",(!n).toString()),t.classList.toggle("open")});

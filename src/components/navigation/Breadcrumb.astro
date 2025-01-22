@@ -1,0 +1,80 @@
+---
+interface Props {
+  currentPage: string;
+}
+
+const { currentPage } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="Navegação estrutural">
+  <div class="container">
+    <ol>
+      <li>
+        <a href="/">Guia de Bairros</a>
+      </li>
+      <li class="separator" aria-hidden="true">
+        &gt;
+      </li>
+      <li>
+        <span class="current-page" aria-current="page">{currentPage}</span>
+      </li>
+    </ol>
+  </div>
+</nav>
+
+<style>
+  .breadcrumb {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 80px;
+  }
+
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  li {
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  a:hover {
+    opacity: 0.8;
+  }
+
+  .separator {
+    margin: 0 4px;
+  }
+
+  .current-page {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  @media (max-width: 1024px) {
+    .container {
+      padding: 0 1rem;
+    }
+  }
+</style>

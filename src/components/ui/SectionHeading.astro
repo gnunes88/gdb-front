@@ -1,0 +1,33 @@
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<div class="section-heading">
+  <h2>{text}</h2>
+  <hr />
+</div>
+
+<style>
+  .section-heading {
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-size: 2.25rem;
+    color: #252525;
+    margin-bottom: 8px;
+    line-height: 1.2;
+    font-weight: 600;
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background-color: rgba(175, 175, 175, 0.75);
+    margin: 0;
+  }
+</style>
